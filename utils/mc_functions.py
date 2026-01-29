@@ -59,16 +59,17 @@ def mc_gate(gate_name, num_of_inputs, n, has_input_sps=False, sp_list=[]):
         else: input_vector = [random.randint(0,1)]  
         workload.append(input_vector)
 
-    previous_gate_output = 0
+    if is_gate_output_high(gate_name, workload[0]): previous_gate_output = 1
+    else: previous_gate_output = 0
     switches = 0
-    for input_vector in workload:
+    for input_vector in workload[1:]:
         new_gate_output = 0
         if is_gate_output_high(gate_name, input_vector):    new_gate_output = 1
         if previous_gate_output == new_gate_output:         continue          
         previous_gate_output = new_gate_output
         switches += 1
     try:
-        sp_of_gate = (switches/n)
+        sp_of_gate = (switches/(n-1))
     except Exception as err:
         print(f"Error: {err}")
         return -1
