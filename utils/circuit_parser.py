@@ -3,14 +3,14 @@ from .element import Element
 
 VALID_GATE_NAMES = ["AND", "NAND", "OR", "NOR", "XOR", "XNOR", "NOT"]
 
-class FileParser():
-    def __init__(self, file_contents, first_line):
+class CircuitParser():
+    def __init__(self, file_contents="", first_line=""):
         self.file_contents = file_contents
         self.first_line = first_line
 
-    def find_top_inputs(self, elements_table, element_outputs, tlp_included=False):
+    def find_top_inputs(self, elements_table, element_outputs, tpl_included=False):
         top_inputs = []
-        if not tlp_included:
+        if not tpl_included:
             for element in elements_table:
                 for input in element.inputs:
                     if (input not in element_outputs) and (input not in top_inputs):
@@ -19,6 +19,22 @@ class FileParser():
             for top_input in self.first_line[1:]:
                 top_inputs.append(top_input.strip())
         return top_inputs
+    
+
+    def get_elements_inputs(self, elements_table):
+        elements_inputs = []
+        for element in elements_table:
+            for input in element.inputs:
+                if input not in elements_inputs: elements_inputs.append(input)
+        return elements_inputs
+    
+
+    def get_elements_outputs(self, elements_table):
+        return  [x.output for x in elements_table]
+    
+
+    def get_circuit_outputs(self, elements_outputs, elements_inputs):
+        return [output for output in elements_outputs if output not in elements_inputs]
     
 
     def check_num_of_inputs(self, element_name, inputs_sp, line_no):
@@ -60,6 +76,6 @@ class FileParser():
     def parse_circuit_file(self):
         start = 1 if self.first_line[0].strip() == "TPLINPUTS" else 0
         elements_table = self.create_elements(start)
-        element_outputs = [x.output for x in elements_table]
+        element_outputs = self.get_elements_outputs(elements_table)
         top_inputs= self.find_top_inputs(elements_table, element_outputs, (start==1))
         return elements_table, element_outputs, top_inputs

@@ -73,4 +73,4 @@ def mc_gate(gate_name, num_of_inputs, n, has_input_sps=False, sp_list=[]):
     except Exception as err:
         print(f"Error: {err}")
         return -1
-    return sp_of_gate
+    return round(sp_of_gate,5)

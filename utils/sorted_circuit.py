@@ -1,6 +1,6 @@
-from .spNGate import evaluate_sp_function
+from .gate_sp import evaluate_sp_function
 from .file_reader import FileReader
-from .file_parser import FileParser
+from .circuit_parser import CircuitParser
 
 class SortedCircuit:
     def __init__(self):
@@ -37,7 +37,7 @@ class SortedCircuit:
 
     def load_from_file(self,file_path):
         lines, first_line = FileReader(file_path).read_circuit_file()
-        self.elements_table, self.element_outputs, self.top_inputs = FileParser(lines, first_line).parse_circuit_file()
+        self.elements_table, self.element_outputs, self.top_inputs = CircuitParser(lines, first_line).parse_circuit_file()
         self.initialize_signals()
         self.sort_elements_table()
 
