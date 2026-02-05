@@ -1,0 +1,8 @@
+AND  i  a b
+OR   j  c d
+XOR  p  n o
+NOR  n  m j
+NAND k  e f
+AND  o  k l
+NOT  m  i
+XNOR l  g h

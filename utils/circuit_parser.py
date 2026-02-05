@@ -8,12 +8,12 @@ class CircuitParser():
         self.file_contents = file_contents
         self.first_line = first_line
 
-    def find_top_inputs(self, elements_table, element_outputs, tpl_included=False):
+    def find_top_inputs(self, elements_table, elements_outputs, tpl_included=False):
         top_inputs = []
         if not tpl_included:
             for element in elements_table:
                 for input in element.inputs:
-                    if (input not in element_outputs) and (input not in top_inputs):
+                    if (input not in elements_outputs) and (input not in top_inputs):
                         top_inputs.append(input)      
         else:  
             for top_input in self.first_line[1:]:
@@ -76,6 +76,7 @@ class CircuitParser():
     def parse_circuit_file(self):
         start = 1 if self.first_line[0].strip() == "TPLINPUTS" else 0
         elements_table = self.create_elements(start)
-        element_outputs = self.get_elements_outputs(elements_table)
-        top_inputs= self.find_top_inputs(elements_table, element_outputs, (start==1))
-        return elements_table, element_outputs, top_inputs
+        elements_outputs = self.get_elements_outputs(elements_table)
+        top_inputs= self.find_top_inputs(elements_table, elements_outputs, (start==1))
+        circuit_outputs = self.get_circuit_outputs(elements_outputs, self.get_elements_inputs(elements_table))
+        return elements_table, elements_outputs, top_inputs, circuit_outputs

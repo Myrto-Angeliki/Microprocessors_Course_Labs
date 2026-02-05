@@ -33,7 +33,7 @@ def get_sp_of_gate(inputs_sp, gate_name, display_mode=True):
         sp = get_partial_sp_of_gate(gate_name, sp, input_sp)
     sp = get_final_sp(gate_name, sp)
     if display_mode: display_gate_sp(gate_name, inputs_sp, sp)
-    return sp
+    return round(sp,5)
 
 
 def handle_NOT_gate(inputs_sp, display_mode=True):

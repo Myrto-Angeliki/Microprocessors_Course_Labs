@@ -3,12 +3,13 @@ from .file_reader import FileReader
 from .circuit_parser import CircuitParser
 
 class SortedCircuit:
-    def __init__(self):
-        self.elements_table= []
-        self.top_inputs = []
-        self.element_outputs = []
-        self.previous_signals = []
-        self.signals = {}
+    def __init__(self, elements_table=[], top_inputs=[], elements_outputs=[], circuit_outputs=[], previous_signals=[], signals={}):
+        self.elements_table = elements_table
+        self.top_inputs = top_inputs
+        self.elements_outputs = elements_outputs
+        self.circuit_outputs  = circuit_outputs
+        self.previous_signals = previous_signals
+        self.signals = signals
 
 
     def sort_elements_table(self):
@@ -30,14 +31,15 @@ class SortedCircuit:
 
     def initialize_signals(self): 
         self.previous_signals = []
-        for signal in (self.top_inputs+self.element_outputs):
+        self.signals = {}
+        for signal in (self.top_inputs+self.elements_outputs):
             self.signals[signal] = 0.0
             self.previous_signals.append(0.0)
 
 
     def load_from_file(self,file_path):
         lines, first_line = FileReader(file_path).read_circuit_file()
-        self.elements_table, self.element_outputs, self.top_inputs = CircuitParser(lines, first_line).parse_circuit_file()
+        self.elements_table, self.elements_outputs, self.top_inputs, self.circuit_outputs = CircuitParser(lines, first_line).parse_circuit_file()
         self.initialize_signals()
         self.sort_elements_table()
 
@@ -48,7 +50,7 @@ class SortedCircuit:
 
 
     def process(self):
-        self.previous_signals = self.signals.values()
+        self.previous_signals = list(self.signals.values())
         for element in self.elements_table:
             input_SPs = [self.signals[input_name] for input_name in element.inputs]
             signal_probability = evaluate_sp_function(element.element_type, input_SPs, display_mode=False)
@@ -62,6 +64,6 @@ class SortedCircuit:
 
     def count_switches(self):
         switches = 0
-        for previous_output, current_output in zip(self.previous_signals, self.signals.values):
+        for previous_output, current_output in zip(self.previous_signals, self.signals.values()):
             if previous_output != current_output: switches += 1
         return switches

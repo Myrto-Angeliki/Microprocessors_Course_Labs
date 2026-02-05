@@ -1,11 +1,7 @@
 import sys
-from utils import evaluate_sp_function
+from utils import evaluate_sp_function, get_inputs
 
 MENU_OPTIONS = ["1", "2", "3"]
-INPUT_SP_ERROR_MSG = (
-        "\n Error: The signal probabilties of the inputs must have values "
-        "inside the range [0,1] and they have to be separated by \",\"."
-        )
 
 def execute_default_examples():
     gates = ["AND", "NAND", "OR", "NOR", "XOR", "XNOR"]
@@ -15,36 +11,11 @@ def execute_default_examples():
     evaluate_sp_function("NOT", 0.5)
 
 
-def parse_input_sp(sp):
-    prob = float(sp.strip())
-    if 0.0 <= prob <= 1.0:
-        prob = round(prob, 5)
-        return prob
-    else:
-        raise Exception(INPUT_SP_ERROR_MSG)
-    
-
-def get_input_sps():
-    input_sps_list = input().split(",")
-    input_sps = []
-    for sp in input_sps_list:
-        try:
-            input_sps.append(parse_input_sp(sp))
-        except ValueError:
-            print(INPUT_SP_ERROR_MSG)
-            return None
-        except Exception as e:
-            print(e)
-            return None
-    return input_sps
-
-
 def prompt_gate_name_and_input_sps():
     print(" Enter gate name:", end=" ")
     gate_name = input().strip().upper()
 
-    print(' Enter the signal probabilities of the inputs seperated by ",":', end=" ")
-    input_sps = get_input_sps()
+    input_sps = get_inputs("signal_probs")
     if input_sps:
         evaluate_sp_function(gate_name, input_sps)
 
