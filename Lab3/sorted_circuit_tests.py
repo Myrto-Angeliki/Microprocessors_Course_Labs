@@ -1,6 +1,5 @@
-from utils import SortedCircuit, process_circuit_with_input_vector, get_valid_inputs, process_circuit_with_truth_table_vectors
+from utils import SortedCircuit, process_circuit_with_input_vector, get_valid_inputs, FILE_PATH
 
-FILE_PATH = "C:\\Users\\user\\Desktop\\git_projects\micropros\\Microprocessors_Course_Labs\\Lab3\\circuit_files\\"
 NUM_OF_FILES = 3
 OPTIONS = {1:"y_or_n", 2:"signal_probs"}   
 

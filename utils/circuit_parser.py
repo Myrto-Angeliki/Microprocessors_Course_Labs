@@ -21,6 +21,14 @@ class CircuitParser():
         return top_inputs
     
 
+    def check_if_inputs_are_valid(self, elements_table, top_inputs, elements_outputs, lines):
+        for i in range(len(elements_table)):
+            for input in elements_table[i].inputs:
+                if not (input in top_inputs or input in elements_outputs):
+                    print(f"\n Error in line {lines[i]}: Input \"{input}\" of element {elements_table[i].element_type} is not a top input or driven by the output of an element")
+                    sys.exit(2)
+
+
     def get_elements_inputs(self, elements_table):
         elements_inputs = []
         for element in elements_table:
@@ -37,15 +45,14 @@ class CircuitParser():
         return [output for output in elements_outputs if output not in elements_inputs]
     
 
-    def check_num_of_inputs(self, element_name, inputs_sp, line_no):
-        num_of_inputs = len(inputs_sp)
+    def check_num_of_inputs(self, element_name, num_of_inputs, line_no):
         no_inputs = num_of_inputs == 0
         not_with_too_many_inputs = element_name == "NOT" and num_of_inputs > 1
         element_with_too_few_inputs = element_name != "NOT" and num_of_inputs < 2
         if element_with_too_few_inputs or not_with_too_many_inputs or no_inputs:
             correct_num_of_inputs = "2 or more inputs" if element_name != "NOT" else "one input"
-            print(f"Error: Element {element_name} in line {line_no} has the wrong number of inputs")
-            print(f"       An {element_name} element must have {correct_num_of_inputs} but found {num_of_inputs}")
+            print(f"Error in line {line_no}: Element {element_name} has the wrong number of inputs")
+            print(f"       A(n) {element_name} element must have {correct_num_of_inputs} but found {num_of_inputs}")
             sys.exit(2)
 
 
@@ -54,29 +61,33 @@ class CircuitParser():
         if element_name in VALID_GATE_NAMES: 
             return element_name
         else:
-            print(f"\n Error: The name of the element {element_name} in line {line_no} is not valid")
-            print(f"           Correct definition of an element:   {VALID_GATE_NAMES} output inputs")
-            print("            For example:                         AND d a b c")
+            print(f"\n Error in line {line_no}: The name of the element {element_name} is not valid")
+            print(f"        Correct definition of an element:   {VALID_GATE_NAMES} output inputs")
+            print("        For example:                         AND d a b c")
             sys.exit(2)
 
 
     def create_elements(self, start):
-        elements_table= []
+        elements_table = []
+        lines = []
         for line, line_no in zip(self.file_contents[start:], range(1,(len(self.file_contents)+1))):
             element_definition = line.split() 
-            element_name = self.get_element_name(element_definition, line_no)         
+            element_name = self.get_element_name(element_definition, (line_no+1))  
+            lines.append((line_no+1))       
             inputs = []       
             for input in element_definition[2:]:
                 inputs.append(input.strip())
-            self.check_num_of_inputs(element_name, inputs, line_no)
+            self.check_num_of_inputs(element_name, len(inputs), (line_no+1))
             elem = Element(element_name, inputs, element_definition[1])
             elements_table.append(elem)
-        return elements_table
+        return elements_table, lines
+    
 
     def parse_circuit_file(self):
         start = 1 if self.first_line[0].strip() == "TPLINPUTS" else 0
-        elements_table = self.create_elements(start)
+        elements_table, lines = self.create_elements(start)
         elements_outputs = self.get_elements_outputs(elements_table)
         top_inputs= self.find_top_inputs(elements_table, elements_outputs, (start==1))
         circuit_outputs = self.get_circuit_outputs(elements_outputs, self.get_elements_inputs(elements_table))
+        self.check_if_inputs_are_valid(elements_table, top_inputs, elements_outputs, lines)
         return elements_table, elements_outputs, top_inputs, circuit_outputs

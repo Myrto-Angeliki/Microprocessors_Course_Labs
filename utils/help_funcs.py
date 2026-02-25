@@ -1,14 +1,16 @@
-INPUT_SP_ERROR_MSG = (
-        "\nThe signal probabilties of the inputs must have values "
-        "inside the range [0,1] and they have to be separated by \",\"."
-        )
-
 INPUT_Y_OR_N_ERROR_MSG = (
         " You must enter a sequence of \"y\" and \"n\" (one for each circuit file) seperated by \",\".")
 
 INPUT_PROMPTS = {"signal_probs": (" Enter the signal probabilities of the top level inputs seperated by \",\": "),
                  "y_or_n": " Enter \"y\" or \"n\" seperated by \",\" for each circuit file, if you want its intermediate signal probabilities to be displayed: "}
 
+
+def handle_pos_integer_input(option, error_msg):
+        print(f" Enter the {option}: ", end="")
+        user_input = input().strip()
+        if user_input.isnumeric() and user_input != "0":  return int(user_input)
+        else: 
+            raise Exception(f" Error: {error_msg}")
 
 def parse_yes_or_no(input):
     if input == 'y':
@@ -18,18 +20,18 @@ def parse_yes_or_no(input):
     else:
         raise Exception(f"Invalid input {input}.\n"+INPUT_Y_OR_N_ERROR_MSG)
 
-def parse_float(input):
+def parse_prob(input):
     prob = float(input)
     if 0.0 <= prob <= 1.0:
         prob = round(prob, 5)
         return prob
     else:
-        raise Exception(INPUT_SP_ERROR_MSG)
+        raise Exception("Expected a value inside the range [0,1]")
     
 
 def parse_input(option, input):
     if option == "signal_probs": 
-        return parse_float(input)
+        return parse_prob(input)
     elif option == "y_or_n":
         return parse_yes_or_no(input.lower())
     else:
