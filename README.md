@@ -1,12 +1,4 @@
 
-## Requirements
-
-- **Python 3.10 | Other Python versions could also work but 3.10 was used for these projects**
-- **ModelSim or other HDL simulation software**
-- **Verilog (all versions) or SystemVerilog**
-
----
-
 ## Microprocessors course Lab projects
 
 Each folder contains a program that is based on one of lab projects that I had to complete for my Microprocessors course. These projects are:
@@ -23,7 +15,7 @@ Each folder contains a program that is based on one of lab projects that I had t
 - **Lab3**: *sorted\_circuit\_tests.py* ->  Signal probability evaluation for each circuit defined in one of
                                         the three files in the **circuit files** folder. 
 <br><br>
-- **Lab4**: *gena.py*                   ->  The implementation of the Genetic Algorithm that aims to find the 
+- **Lab4**: *gena.py*                   ->  AN implementation of the Genetic Algorithm that aims to find the 
                                         max number of switches possible for a circuit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         and the workload (set of inputs) that maximizes that number.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -32,6 +24,27 @@ Each folder contains a program that is based on one of lab projects that I had t
 
 - **Lab5** : *src\_cpu.v*               ->  A 3-stage pipelined processor that uses the _ramcontroller_, 
                                         _registerfile_, and _alu_ components found in the **src** folder.
-                                        
+
+---
+
+## Requirements
+
+- **Python 3.10 | Other Python versions could also work but 3.10 was used for the Python projects**
+- **ModelSim or other HDL simulation software**
+- **Verilog (all versions) or SystemVerilog**
+
+## To run the project
+  1. Clone the repository:<br>
+    ```
+    git clone https://github.com/Myrto-Angeliki/Microprocessors_Course_Labs.git
+    ```<br><br>
+  2. For **Lab1-4**, change directory to **/Microprocessors_Course_Labs**, open a terminal and then type the following command:<br>
+    ```
+    python -m LabX.module_name (for example python -m Lab4.gena_tests )
+    ``` <br><br>
+    For **Lab5**, open the .v files with your HDL simulator, compile them, and start a simulation for one of the testbench files that can be found in **Lab5/src**.
+     If you are using *Modelsim* or *QuestaSim*, you can load the *.do* files found inside **Lab5/sim** by selecting **File > Load > Macro File** and choosing one
+     of *.do* files, or by typing ```do macro_file_name.do``` inside the Transcript console.
+
 
                                      
