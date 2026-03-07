@@ -1,7 +1,7 @@
 
 ## Microprocessors course Lab projects
 
-Each folder contains a program that is based on one of lab projects that I had to complete for my Microprocessors course. These projects are:
+Each folder contains a project that is based on one of lab projects that I had to complete for my Microprocessors course. These projects are:
 
 - **Lab1**: <br>
 *gate\_sp\_eval.py*         ->  Signal probability evaluation of a gate. <br>
