@@ -17,7 +17,7 @@ a) using Monte Carlo simulation, b) using signal probabilities.
 - **Lab4**: <br>
 *gena.py*                   ->  AN implementation of the Genetic Algorithm that aims to find the max number of switches possible for a circuit and the workload (set of inputs) that maximizes that number.<br>
 *gena\_tests.py*            ->  Uses the the Genetic Algorithm, as described in *gena.py*, to run various switching activity stress tests.
-
+ <br><br>
 - **Lab5** : <br>
   *cpu.v* ->  A 3-stage pipelined processor that consists of the _ramcontroller_, _registerfile_, and _alu_ components found inside **/Lab5/src**.
 
