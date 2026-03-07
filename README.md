@@ -39,7 +39,7 @@ a) using Monte Carlo simulation, b) using signal probabilities.
     python -m LabX.module_name (for example python -m Lab4.gena_tests )
     ``` <br><br>
   3. For **Lab5**, open the .v files with your HDL simulator, compile them, and start a simulation for one of the testbench files that can be found in
-     **/Lab5/src**. If you are using *Modelsim* or *QuestaSim*, you can load the *.do* files found inside **Lab5/sim** by selecting **File > Load > Macro File**        and choosing one of *.do* files, or by typing ```do macro_file_name.do``` inside the Transcript console.
+     **/Lab5/src**. If you are using *Modelsim* or *QuestaSim*, you can load the *.do* files found inside **Lab5/sim** by selecting **File > Load > Macro File**        and choosing one of *.do* files, or by typing <br>```do macro_file_name.do``` inside the Transcript console.
 
 
                                      
